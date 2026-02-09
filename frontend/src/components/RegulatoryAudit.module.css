@@ -1,0 +1,189 @@
+.container {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    max-width: 140px;
+}
+
+.badge {
+    background-color: #111827;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.badgeSub {
+    font-size: 8px;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.complianceBox {
+    background-color: #ECFDF5;
+    border: 1px solid #D1FAE5;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.checkIcon {
+    width: 24px;
+    height: 24px;
+    color: #059669;
+    background-color: #10B981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.checkSvg {
+    width: 16px;
+    height: 16px;
+    color: #FFFFFF;
+}
+
+.complianceContent h4 {
+    margin: 0 0 4px 0;
+    color: #065F46;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.complianceContent p {
+    margin: 0;
+    color: #047857;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.metricRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.metricRow:last-child {
+    border-bottom: none;
+}
+
+.metricLabel {
+    display: flex;
+    flex-direction: column;
+}
+
+.labelMain {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.labelSub {
+    font-size: 10px;
+    color: #9CA3AF;
+}
+
+.metricValue {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    text-align: right;
+}
+
+.pass {
+    color: #059669;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+.sources {
+    background-color: #F9FAFB;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sourcesTitle {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.sourceItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #4B5563;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.sourceIcon {
+    width: 16px;
+    height: 16px;
+    color: #6B7280;
+}
+
+.auditBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #F3F4F6;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.auditBtn:hover {
+    background-color: #E5E7EB;
+    color: #111827;
+}

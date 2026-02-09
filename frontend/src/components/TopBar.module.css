@@ -1,0 +1,261 @@
+.topbar {
+    height: 64px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.orgDropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #E5E7EB;
+    transition: background-color 0.2s;
+}
+
+.orgDropdown:hover {
+    background-color: #F9FAFB;
+}
+
+.orgName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.chevron {
+    color: #9CA3AF;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: #E5E7EB;
+}
+
+.pageTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.searchContainer {
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+    width: 16px;
+    height: 16px;
+}
+
+.searchInput {
+    padding: 8px 12px 8px 36px;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 240px;
+    color: #374151;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.notificationBtn {
+    background: none;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notificationBtn:hover {
+    background-color: #F3F4F6;
+}
+
+.notificationBtn img {
+    width: 20px;
+    height: 20px;
+}
+
+.badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: #EF4444;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.notificationWrapper {
+    position: relative;
+}
+
+.notificationDropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 380px;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 20;
+    overflow: hidden;
+}
+
+.notificationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.notificationTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.markReadBtn {
+    font-size: 12px;
+    color: #2563EB;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.markReadBtn:hover {
+    text-decoration: underline;
+}
+
+.notificationList {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notificationItem {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #F3F4F6;
+    transition: background-color 0.2s;
+}
+
+.notificationItem:last-child {
+    border-bottom: none;
+}
+
+.unread {
+    background-color: #F9FAFB;
+}
+
+.notificationIcon {
+    font-size: 16px;
+    padding-top: 2px;
+}
+
+.notificationContent {
+    flex: 1;
+}
+
+.notificationTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.notificationItemTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.notificationTime {
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+.notificationMessage {
+    font-size: 13px;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.unreadDot {
+    width: 6px;
+    height: 6px;
+    background-color: #2563EB;
+    border-radius: 50%;
+    margin-top: 6px;
+}
+
+.notificationFooter {
+    padding: 12px;
+    border-top: 1px solid #E5E7EB;
+    background-color: #F9FAFB;
+    text-align: center;
+}
+
+.viewAllBtn {
+    font-size: 12px;
+    color: #4B5563;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.viewAllBtn:hover {
+    color: #111827;
+}
+
+.emptyState {
+    padding: 48px;
+    text-align: center;
+    color: #6B7280;
+}
+
+.emptyText {
+    font-size: 14px;
+}

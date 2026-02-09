@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AeroGradientLogo from '../components/AeroGradientLogo';
 import styles from './Login.module.css';
 
@@ -6,10 +7,13 @@ const Login: React.FC = () => {
     const [orgId, setOrgId] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Login attempt:', { orgId, email, password });
+        // In a real app, we would validate credentials here
+        navigate('/command-center');
     };
 
     return (

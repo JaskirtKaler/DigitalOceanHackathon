@@ -1,0 +1,134 @@
+.container {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.onlineBadge {
+    font-size: 12px;
+    font-weight: 500;
+    color: #059669;
+    background-color: #ECFDF5;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid #D1FAE5;
+}
+
+.crewList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.crewMember {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.memberInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+}
+
+.statusDot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.online {
+    background-color: #10B981;
+}
+
+.away {
+    background-color: #F59E0B;
+}
+
+.offline {
+    background-color: #9CA3AF;
+}
+
+.nameRole {
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.role {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.actionBtn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #9CA3AF;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.actionBtn:hover {
+    color: #4B5563;
+    background-color: #F3F4F6;
+}
+
+.inviteBtn {
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+    background-color: #111827;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.inviteBtn:hover {
+    background-color: #1F2937;
+}
+
+/* Icons */
+.messageIcon {
+    width: 20px;
+    height: 20px;
+}
