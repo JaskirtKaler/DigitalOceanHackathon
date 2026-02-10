@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { SignInButton, SignUpButton } from '@clerk/clerk-react';
 import AeroGradientLogo from '../components/AeroGradientLogo';
 import styles from './Login.module.css';
 
 const Login: React.FC = () => {
-    const [orgId, setOrgId] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Login attempt:', { orgId, email, password });
-        // In a real app, we would validate credentials here
-        navigate('/command-center');
-    };
 
     return (
         <div className={styles.container}>
@@ -37,52 +26,22 @@ const Login: React.FC = () => {
                     <p className={styles.subtitle}>Welcome back to your drone fleet dashboard</p>
                 </div>
 
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label} htmlFor="orgId">Organization ID</label>
-                        <input
-                            id="orgId"
-                            type="text"
-                            className={styles.input}
-                            placeholder="e.g. aero-corps-01"
-                            value={orgId}
-                            onChange={(e) => setOrgId(e.target.value)}
-                            required
-                        />
-                    </div>
+                <div className={styles.form}>
+                    <SignInButton mode="modal">
+                        <button className={styles.signInButton}>
+                            Sign In with Clerk
+                        </button>
+                    </SignInButton>
 
-                    <div className={styles.formGroup}>
-                        <label className={styles.label} htmlFor="email">Work Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            className={styles.input}
-                            placeholder="name@company.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                    <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                        <span style={{ color: '#6B7280', marginRight: '0.5rem' }}>Don't have an account?</span>
+                        <SignUpButton mode="modal">
+                            <button style={{ color: '#3B82F6', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+                                Sign up
+                            </button>
+                        </SignUpButton>
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label className={styles.label} htmlFor="password">
-                            Password
-                            <a href="#" className={styles.forgotPassword}>Forgot password?</a>
-                        </label>
-                        <input
-                            id="password"
-                            type="password"
-                            className={styles.input}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <button type="submit" className={styles.signInButton}>
-                        Sign in
-                    </button>
-                </form>
+                </div>
 
                 {/* SSO Button commented out for now 
                 <div className={styles.divider}>Or continue with</div>

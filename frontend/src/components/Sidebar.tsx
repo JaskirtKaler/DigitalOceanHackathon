@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { UserButton } from '@clerk/clerk-react';
 import AeroGradientLogo from './AeroGradientLogo';
 import styles from './Sidebar.module.css';
 
@@ -10,7 +10,6 @@ import MissionsIcon from '../assets/icons/location-svgrepo-com.svg'; // Using lo
 import AnalyticsIcon from '../assets/icons/graph-asc-svgrepo-com.svg';
 import SafetyIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
 import SettingsIcon from '../assets/icons/setting-svgrepo-com.svg';
-import LogOutIcon from '../assets/icons/log-out-svgrepo-com.svg';
 
 // Helper to render SVG or img tag
 const Icon = ({ src, alt }: { src: string; alt: string }) => (
@@ -18,13 +17,6 @@ const Icon = ({ src, alt }: { src: string; alt: string }) => (
 );
 
 const Sidebar: React.FC = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const handleSignOut = () => {
-        // In a real app, clear auth tokens here
-        navigate('/');
-    };
 
     return (
         <aside className={styles.sidebar}>
@@ -64,31 +56,14 @@ const Sidebar: React.FC = () => {
             </nav>
 
             <div className={styles.footer}>
-                {isMenuOpen && (
-                    <div className={styles.userMenu}>
-                        <button className={styles.menuItem}>
-                            <Icon src={SettingsIcon} alt="Profile Settings" />
-                            <span>Profile Settings</span>
-                        </button>
-                        <button className={styles.menuItem}>
-                            <Icon src={AnalyticsIcon} alt="Organization Details" />
-                            <span>Organization Details</span>
-                        </button>
-                        <div className={styles.menuDivider}></div>
-                        <button className={`${styles.menuItem} ${styles.signOut}`} onClick={handleSignOut}>
-                            <Icon src={LogOutIcon} alt="Sign Out" />
-                            <span>Sign Out</span>
-                        </button>
-                    </div>
-                )}
-                <div className={styles.userProfile} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    <div className={styles.avatar}>
-                        <img src="https://ui-avatars.com/api/?name=Alex+Chen&background=random" alt="User" />
-                    </div>
+                <div className={styles.userProfile}>
+                    <UserButton showName />
+                    {/* 
                     <div className={styles.userInfo}>
                         <div className={styles.userName}>Alex Chen</div>
                         <div className={styles.userRole}>Flight Director</div>
-                    </div>
+                    </div> 
+                    */}
                 </div>
             </div>
         </aside>
