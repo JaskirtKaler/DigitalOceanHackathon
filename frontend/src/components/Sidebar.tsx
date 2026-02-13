@@ -1,12 +1,14 @@
+
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { UserButton } from '@clerk/clerk-react';
 import AeroGradientLogo from './AeroGradientLogo';
 import styles from './Sidebar.module.css';
 
 // Import SVG icons as React components or image sources
 import DashboardIcon from '../assets/icons/dashboard-svgrepo-com.svg';
-import FleetIcon from '../assets/icons/radar-2-svgrepo-com.svg'; // Using radar for fleet overview
-import MissionsIcon from '../assets/icons/location-svgrepo-com.svg'; // Using location for active missions
+import FleetIcon from '../assets/icons/radar-2-svgrepo-com.svg';
+import MissionsIcon from '../assets/icons/location-svgrepo-com.svg';
 import AnalyticsIcon from '../assets/icons/graph-asc-svgrepo-com.svg';
 import SafetyIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
 import SettingsIcon from '../assets/icons/setting-svgrepo-com.svg';
@@ -17,6 +19,8 @@ const Icon = ({ src, alt }: { src: string; alt: string }) => (
 );
 
 const Sidebar: React.FC = () => {
+    const location = useLocation();
+    const isActive = (path: string) => location.pathname === path;
 
     return (
         <aside className={styles.sidebar}>
@@ -26,29 +30,28 @@ const Sidebar: React.FC = () => {
 
             <nav className={styles.nav}>
                 <div className={styles.sectionHeader}>OPERATIONS</div>
-                <a href="#" className={`${styles.navItem} ${styles.active}`}>
+                <Link to="/command-center" className={`${styles.navItem} ${isActive('/command-center') ? styles.active : ''}`}>
                     <Icon src={DashboardIcon} alt="Dashboard" />
                     <span>Dashboard</span>
-                </a>
+                </Link>
                 <a href="#" className={styles.navItem}>
-                    <Icon src={FleetIcon} alt="Fleet Overview" />
-                    <span>Fleet Overview</span>
+                    <Icon src={FleetIcon} alt="Weather Telematics" />
+                    <span>Weather Telematics</span>
                 </a>
                 <a href="#" className={styles.navItem}>
                     <Icon src={MissionsIcon} alt="Active Missions" />
                     <span>Active Missions</span>
                 </a>
-                <a href="#" className={styles.navItem}>
+                <Link to="/analytics" className={`${styles.navItem} ${isActive('/analytics') ? styles.active : ''}`}>
                     <Icon src={AnalyticsIcon} alt="Analytics" />
                     <span>Analytics</span>
-                </a>
+                </Link>
 
                 <div className={styles.sectionHeader}>COMPLIANCE</div>
-                {/* Note: I might need to adjust the SVGs used here if exact matches aren't found in the provided list */}
-                <a href="#" className={styles.navItem}>
+                <Link to="/safety-logs" className={`${styles.navItem} ${isActive('/safety-logs') ? styles.active : ''}`}>
                     <Icon src={SafetyIcon} alt="Safety Logs" />
                     <span>Safety Logs</span>
-                </a>
+                </Link>
                 <a href="#" className={styles.navItem}>
                     <Icon src={SettingsIcon} alt="Settings" />
                     <span>Settings</span>
@@ -58,12 +61,6 @@ const Sidebar: React.FC = () => {
             <div className={styles.footer}>
                 <div className={styles.userProfile}>
                     <UserButton showName />
-                    {/* 
-                    <div className={styles.userInfo}>
-                        <div className={styles.userName}>Alex Chen</div>
-                        <div className={styles.userRole}>Flight Director</div>
-                    </div> 
-                    */}
                 </div>
             </div>
         </aside>

@@ -5,7 +5,7 @@ interface StatsCardProps {
     title: string;
     value: string | number;
     change?: string;
-    trend?: 'up' | 'down' | 'neutral';
+    trend?: 'up' | 'down' | 'neutral' | 'stable';
     icon?: string;
     statusText?: string;
     alert?: boolean;
@@ -21,7 +21,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, change, trend, icon
             <div className={styles.content}>
                 <span className={styles.value}>{value}</span>
                 {change && (
-                    <span className={`${styles.change} ${trend === 'up' ? styles.up : trend === 'down' ? styles.down : ''}`}>
+                    <span className={`${styles.change} ${trend === 'up' ? styles.up : trend === 'down' ? styles.down : styles.neutral}`}>
                         {change}
                     </span>
                 )}

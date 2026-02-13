@@ -196,3 +196,97 @@ export const auditData: AuditData = {
         orgProtocol: true
     }
 };
+
+export interface AnalyticsMetrics {
+    efficiency: {
+        value: string;
+        trend: 'up' | 'down' | 'stable';
+        change: string;
+    };
+    incidentRate: {
+        value: string;
+        trend: 'up' | 'down' | 'stable';
+        change: string;
+    };
+    flightHours: number;
+    missionSuccessRate: number;
+}
+
+export const analyticsData: AnalyticsMetrics = {
+    efficiency: {
+        value: '88.5%',
+        trend: 'up',
+        change: '+4.5%'
+    },
+    incidentRate: {
+        value: '0.03%',
+        trend: 'down', // Good thing
+        change: '-0.01%'
+    },
+    flightHours: 12450,
+    missionSuccessRate: 94.2
+};
+
+export interface SafetyLog {
+    id: string;
+    date: string;
+    time: string;
+    pilot: string;
+    droneId: string;
+    level: 'LOW' | 'MED' | 'HIGH';
+    description: string;
+    verified: boolean;
+}
+
+export const safetyLogsData: SafetyLog[] = [
+    {
+        id: 'L-101',
+        date: 'Oct 24, 2024',
+        time: '09:42 AM',
+        pilot: 'Marcus Reed',
+        droneId: 'AG-402',
+        level: 'LOW',
+        description: 'Routine pre-flight check complete. No anomalies detected.',
+        verified: true
+    },
+    {
+        id: 'L-102',
+        date: 'Oct 24, 2024',
+        time: '08:15 AM',
+        pilot: 'Sarah Jenkins',
+        droneId: 'AG-305',
+        level: 'MED',
+        description: 'Battery temp slightly elevated during charging. Monitoring.',
+        verified: true
+    },
+    {
+        id: 'L-103',
+        date: 'Oct 23, 2024',
+        time: '16:30 PM',
+        pilot: 'David Chen',
+        droneId: 'AG-118',
+        level: 'LOW',
+        description: 'Post-mission diagnostic. All systems nominal.',
+        verified: true
+    },
+    {
+        id: 'L-104',
+        date: 'Oct 23, 2024',
+        time: '14:12 PM',
+        pilot: 'Marcus Reed',
+        droneId: 'AG-772',
+        level: 'HIGH',
+        description: 'Unexpected wind shear reports in Sector 7. Re-routing engaged.',
+        verified: true
+    },
+    {
+        id: 'L-105',
+        date: 'Oct 23, 2024',
+        time: '11:05 AM',
+        pilot: 'Sarah Jenkins',
+        droneId: 'AG-210',
+        level: 'LOW',
+        description: 'Firmware capability verified for v2.4 roll-out.',
+        verified: true
+    }
+];

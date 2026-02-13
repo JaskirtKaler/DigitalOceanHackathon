@@ -11,7 +11,7 @@ import PlaneIcon from '../assets/icons/plane-departure-solid-svgrepo-com.svg';
 import BatteryIcon from '../assets/icons/temperature-list-svgrepo-com.svg';
 import TargetIcon from '../assets/icons/radar-2-svgrepo-com.svg';
 import AlertIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
-import FilterIcon from '../assets/icons/filter-svgrepo-com.svg';
+
 
 import FlightCrew from '../components/FlightCrew';
 import RegulatoryAudit from '../components/RegulatoryAudit';
@@ -64,19 +64,7 @@ const CommandCenter: React.FC = () => {
                                     <h2 className={styles.sectionTitle}>Fleet Status: Live</h2>
                                     <p className={styles.sectionSubtitle}>Real-time monitoring of all active autonomous units.</p>
                                 </div>
-                                <div className={styles.controls}>
-                                    <div className={styles.filterTabs}>
-                                        <button className={`${styles.filterTab} ${styles.activeTab}`}>All Drones</button>
-                                        <button className={styles.filterTab}>In-Flight</button>
-                                        <button className={styles.filterTab}>Charging</button>
-                                        <button className={styles.filterTab}>Maintenance</button>
-                                    </div>
-                                    <div className={styles.divider}></div>
-                                    <button className={styles.filterBtn}>
-                                        <img src={FilterIcon} alt="Filter" />
-                                        <span>Filter</span>
-                                    </button>
-                                </div>
+
                             </div>
 
                             <div className={styles.fleetGrid}>

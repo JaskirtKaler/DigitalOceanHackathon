@@ -171,7 +171,43 @@
     color: #EF4444;
 }
 
-.signOut:hover {
-    background-color: #FEF2F2;
-    color: #EF4444;
+/* ... existing styles ... */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+        padding: 24px 12px;
+    }
+
+    .sectionHeader {
+        display: none;
+    }
+
+    .navItem span {
+        display: none;
+    }
+
+    .navItem {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .logoContainer {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    /* Hide logo text if possible via CSS class overlap or child selector if known */
+    /* Assuming Logo uses currentcolor or similar, but we might need to target it specifically */
+    /* If AeroGradientLogo puts text in a span we can target it, otherwise we rely on Sidebar width clipping or just icons */
+
+    .userProfile .userInfo {
+        display: none;
+    }
+
+    .userProfile {
+        justify-content: center;
+        padding: 0;
+    }
 }

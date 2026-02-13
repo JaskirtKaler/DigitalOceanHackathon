@@ -57,6 +57,12 @@
     color: #EF4444;
 }
 
+.neutral,
+.stable {
+    color: #6B7280;
+    /* Gray */
+}
+
 .statusText {
     font-size: 14px;
     font-weight: 500;

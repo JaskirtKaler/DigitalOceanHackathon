@@ -1,8 +1,15 @@
 import React from 'react';
 import styles from './RegulatoryAudit.module.css';
 import { auditData } from '../utils/mockData';
+import { useWeather } from '../hooks/useWeather';
 
 const RegulatoryAudit: React.FC = () => {
+    const { data: weather } = useWeather();
+
+    const windSpeed = weather?.windSpeed ?? auditData.windSpeed;
+    const visibility = weather?.visibility ?? auditData.visibility;
+    const precipitation = weather?.precipitation ?? auditData.precipitation;
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -33,7 +40,7 @@ const RegulatoryAudit: React.FC = () => {
                         <span className={styles.labelSub}>(Gusts)</span>
                     </div>
                     <div className={styles.metricValue}>
-                        {auditData.windSpeed} km/h
+                        {windSpeed} km/h
                         <span className={styles.pass}>PASS (&lt;45)</span>
                     </div>
                 </div>
@@ -42,7 +49,7 @@ const RegulatoryAudit: React.FC = () => {
                         <span className={styles.labelMain}>Visibility</span>
                     </div>
                     <div className={styles.metricValue}>
-                        {auditData.visibility} km
+                        {visibility} km
                         <span className={styles.pass}>PASS (&gt;5)</span>
                     </div>
                 </div>
@@ -51,7 +58,7 @@ const RegulatoryAudit: React.FC = () => {
                         <span className={styles.labelMain}>Precipitation</span>
                     </div>
                     <div className={styles.metricValue}>
-                        {auditData.precipitation}
+                        {precipitation}
                         <span className={styles.pass}>PASS</span>
                     </div>
                 </div>

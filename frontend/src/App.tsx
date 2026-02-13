@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import CommandCenter from './pages/CommandCenter';
+import Analytics from './pages/Analytics';
+import SafetyLogs from './pages/SafetyLogs';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
 
 function App() {
@@ -20,6 +22,16 @@ function App() {
         <Route path="/command-center" element={
           <SignedIn>
             <CommandCenter />
+          </SignedIn>
+        } />
+        <Route path="/analytics" element={
+          <SignedIn>
+            <Analytics />
+          </SignedIn>
+        } />
+        <Route path="/safety-logs" element={
+          <SignedIn>
+            <SafetyLogs />
           </SignedIn>
         } />
       </Routes>

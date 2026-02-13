@@ -17,6 +17,10 @@
     gap: 16px;
 }
 
+.orgWrapper {
+    position: relative;
+}
+
 .orgDropdown {
     display: flex;
     align-items: center;
@@ -26,10 +30,77 @@
     border-radius: 6px;
     border: 1px solid #E5E7EB;
     transition: background-color 0.2s;
+    user-select: none;
 }
 
 .orgDropdown:hover {
     background-color: #F9FAFB;
+}
+
+.orgMenu {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 240px;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 20;
+    padding: 8px 0;
+}
+
+.orgLabel {
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.orgItem {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.orgItem:hover {
+    background-color: #F3F4F6;
+}
+
+.activeOrg {
+    background-color: #EFF6FF;
+    color: #2563EB;
+    font-weight: 500;
+}
+
+.orgDivider {
+    height: 1px;
+    background-color: #E5E7EB;
+    margin: 8px 0;
+}
+
+.joinOrgBtn {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #2563EB;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.joinOrgBtn:hover {
+    background-color: #EFF6FF;
 }
 
 .orgName {
@@ -40,6 +111,11 @@
 
 .chevron {
     color: #9CA3AF;
+    transition: transform 0.2s;
+}
+
+.rotate {
+    transform: rotate(180deg);
 }
 
 .divider {

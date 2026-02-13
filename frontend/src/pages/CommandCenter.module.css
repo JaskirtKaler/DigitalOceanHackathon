@@ -2,14 +2,40 @@
     display: flex;
     min-height: 100vh;
     background-color: #F9FAFB;
+    padding-left: 280px;
+    /* Offset for fixed sidebar */
 }
 
 .mainContent {
     flex: 1;
-    margin-left: 280px;
-    /* Width of sidebar */
+    /* margin-left: 280px; DO NOT USE MARGIN */
     display: flex;
     flex-direction: column;
+}
+
+/* ... existing styles ... */
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 80px !important;
+    }
+
+    .mainContent {
+        margin-left: 0 !important;
+    }
+
+    .dashboardContent {
+        grid-template-columns: 1fr !important;
+        padding: 16px;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .fleetGrid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 .dashboardContent {
@@ -137,7 +163,7 @@
 
 .fleetGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
 }
 
@@ -145,14 +171,41 @@
     .statsGrid {
         grid-template-columns: repeat(2, 1fr);
     }
+}
 
-    .fleetGrid {
-        grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1200px) {
+    .dashboardContent {
+        grid-template-columns: 1fr;
+    }
+
+    .rightColumn {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .rightColumn>* {
+        flex: 1;
+        min-width: 300px;
     }
 }
 
-@media (max-width: 1100px) {
+/* Removed 1100px media query for fleetGrid as auto-fill handles it */
+
+@media (max-width: 768px) {
+    .mainContent {
+        margin-left: 80px;
+    }
+
+    .dashboardContent {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
     .fleetGrid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 }
