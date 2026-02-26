@@ -13,12 +13,9 @@ interface WeatherState {
     error: string | null;
 }
 
-const API_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY;
-const API_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-
-// San Francisco fallback
-const DEFAULT_LAT = 37.7749;
-const DEFAULT_LON = -122.4194;
+// San Jose fallback
+const DEFAULT_LAT = 37.3382;
+const DEFAULT_LON = -121.8863;
 
 export const useWeather = (): WeatherState => {
     const [state, setState] = useState<WeatherState>({
@@ -31,13 +28,9 @@ export const useWeather = (): WeatherState => {
         const fetchWeather = async (latitude: number, longitude: number) => {
             console.log('Fetching weather for', latitude, longitude);
             try {
-                if (!API_KEY) {
-                    console.error('API Key is missing in useWeather');
-                    throw new Error('OpenWeatherMap API key is missing');
-                }
-
+                // Call our Go backend proxy — API key stays server-side
                 const response = await fetch(
-                    `${API_BASE_URL}?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+                    `/api/weather?lat=${latitude}&lon=${longitude}`
                 );
 
                 if (!response.ok) {

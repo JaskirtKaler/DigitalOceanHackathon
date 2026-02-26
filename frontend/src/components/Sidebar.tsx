@@ -25,7 +25,9 @@ const Sidebar: React.FC = () => {
     return (
         <aside className={styles.sidebar}>
             <div className={styles.logoContainer}>
-                <AeroGradientLogo showText={true} />
+                <Link to="/command-center" style={{ textDecoration: 'none' }}>
+                    <AeroGradientLogo showText={true} />
+                </Link>
             </div>
 
             <nav className={styles.nav}>
@@ -38,10 +40,10 @@ const Sidebar: React.FC = () => {
                     <Icon src={FleetIcon} alt="Weather Telematics" />
                     <span>Weather Telematics</span>
                 </a>
-                <a href="#" className={styles.navItem}>
+                <Link to="/active-mission" className={`${styles.navItem} ${isActive('/active-mission') ? styles.active : ''}`}>
                     <Icon src={MissionsIcon} alt="Active Missions" />
                     <span>Active Missions</span>
-                </a>
+                </Link>
                 <Link to="/analytics" className={`${styles.navItem} ${isActive('/analytics') ? styles.active : ''}`}>
                     <Icon src={AnalyticsIcon} alt="Analytics" />
                     <span>Analytics</span>

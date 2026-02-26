@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #F9FAFB;
     padding-left: 280px;
     /* Offset for fixed sidebar */
@@ -8,7 +8,8 @@
 
 .mainContent {
     flex: 1;
-    /* margin-left: 280px; DO NOT USE MARGIN */
+    overflow-y: auto;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }
