@@ -7,7 +7,6 @@ import styles from './Sidebar.module.css';
 
 // Import SVG icons as React components or image sources
 import DashboardIcon from '../assets/icons/dashboard-svgrepo-com.svg';
-import FleetIcon from '../assets/icons/radar-2-svgrepo-com.svg';
 import MissionsIcon from '../assets/icons/location-svgrepo-com.svg';
 import AnalyticsIcon from '../assets/icons/graph-asc-svgrepo-com.svg';
 import SafetyIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
