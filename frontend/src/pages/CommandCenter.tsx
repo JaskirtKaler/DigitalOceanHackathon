@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import TopBar from '../components/TopBar';
 import StatsCard from '../components/StatsCard';
 import DroneCard from '../components/DroneCard';
+import WeatherTelematics from '../components/WeatherTelematics';
 import styles from './CommandCenter.module.css';
 import { statistics, fleetStatusData } from '../utils/mockData';
 
@@ -14,7 +15,7 @@ import AlertIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
 
 
 import FlightCrew from '../components/FlightCrew';
-import RegulatoryAudit from '../components/RegulatoryAudit';
+// import RegulatoryAudit from '../components/RegulatoryAudit';
 
 const CommandCenter: React.FC = () => {
     return (
@@ -57,6 +58,9 @@ const CommandCenter: React.FC = () => {
                             />
                         </div>
 
+                        {/* Weather Telematics Section */}
+                        <WeatherTelematics />
+
                         {/* Fleet Status Section */}
                         <div className={styles.fleetSection}>
                             <div className={styles.sectionHeader}>
@@ -76,7 +80,7 @@ const CommandCenter: React.FC = () => {
                     </div>
 
                     <div className={styles.rightColumn}>
-                        <RegulatoryAudit />
+                        {/* <RegulatoryAudit /> */}
                         <FlightCrew />
                     </div>
                 </div>

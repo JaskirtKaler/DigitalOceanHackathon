@@ -36,10 +36,10 @@ const Sidebar: React.FC = () => {
                     <Icon src={DashboardIcon} alt="Dashboard" />
                     <span>Dashboard</span>
                 </Link>
-                <a href="#" className={styles.navItem}>
+                {/* <a href="#" className={styles.navItem}>
                     <Icon src={FleetIcon} alt="Weather Telematics" />
                     <span>Weather Telematics</span>
-                </a>
+                </a> */}
                 <Link to="/active-mission" className={`${styles.navItem} ${isActive('/active-mission') ? styles.active : ''}`}>
                     <Icon src={MissionsIcon} alt="Active Missions" />
                     <span>Active Missions</span>
