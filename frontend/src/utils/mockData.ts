@@ -290,3 +290,67 @@ export const safetyLogsData: SafetyLog[] = [
         verified: true
     }
 ];
+
+export interface TeamMember {
+    id: string;
+    name: string;
+    email: string;
+    avatarColor: string;
+    avatarUrl?: string;
+    status: 'Active' | 'Pending' | 'Inactive';
+    isAdmin: boolean;
+    isPilot: boolean;
+}
+
+export const teamMembersData: TeamMember[] = [
+    {
+        id: 'tm-1',
+        name: 'Alex Chen',
+        email: 'alex@skyhigh.com',
+        avatarColor: '#E8B86D',
+        status: 'Active',
+        isAdmin: true,
+        isPilot: true
+    },
+    {
+        id: 'tm-2',
+        name: 'Marcus Reed',
+        email: 'marcus@skyhigh.com',
+        avatarColor: '#D4E85E',
+        status: 'Active',
+        isAdmin: false,
+        isPilot: true
+    },
+    {
+        id: 'tm-3',
+        name: 'Sarah Jenkins',
+        email: 'sarah@skyhigh.com',
+        avatarColor: '#D47A4A',
+        status: 'Active',
+        isAdmin: false,
+        isPilot: true
+    },
+    {
+        id: 'tm-4',
+        name: 'David Chen',
+        email: 'david@skyhigh.com',
+        avatarColor: '#C4AAED',
+        status: 'Active',
+        isAdmin: false,
+        isPilot: true
+    },
+    {
+        id: 'tm-5',
+        name: 'Elena Rodriguez',
+        email: 'elena@skyhigh.com',
+        avatarColor: '#C47DB5',
+        status: 'Active',
+        isAdmin: true,
+        isPilot: false
+    }
+];
+
+export const organizationSettings = {
+    name: 'SkyHigh Logistics',
+    displayId: 'skyhigh'
+};

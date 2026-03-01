@@ -4,6 +4,7 @@ import CommandCenter from './pages/CommandCenter';
 import Analytics from './pages/Analytics';
 import SafetyLogs from './pages/SafetyLogs';
 import ActiveMission from './pages/ActiveMission';
+import Settings from './pages/Settings';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
 
 function App() {
@@ -38,6 +39,11 @@ function App() {
         <Route path="/active-mission" element={
           <SignedIn>
             <ActiveMission />
+          </SignedIn>
+        } />
+        <Route path="/settings" element={
+          <SignedIn>
+            <Settings />
           </SignedIn>
         } />
       </Routes>

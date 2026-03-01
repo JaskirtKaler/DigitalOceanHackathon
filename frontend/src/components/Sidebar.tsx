@@ -54,10 +54,10 @@ const Sidebar: React.FC = () => {
                     <Icon src={SafetyIcon} alt="Safety Logs" />
                     <span>Safety Logs</span>
                 </Link>
-                <a href="#" className={styles.navItem}>
+                <Link to="/settings" className={`${styles.navItem} ${isActive('/settings') ? styles.active : ''}`}>
                     <Icon src={SettingsIcon} alt="Settings" />
                     <span>Settings</span>
-                </a>
+                </Link>
             </nav>
 
             <div className={styles.footer}>
