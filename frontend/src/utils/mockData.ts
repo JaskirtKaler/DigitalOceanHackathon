@@ -11,94 +11,27 @@ export interface Drone {
     eta?: string;
 }
 
-export const fleetStatusData: Drone[] = [
-    {
-        id: 'AG-402',
-        model: 'X92',
-        status: 'Active',
-        speed: 42,
-        altitude: 120,
-        signalStrength: 'Strong',
-        batteryLevel: 72,
-        mode: 'Autonomous',
-        eta: '12m'
-    },
-    {
-        id: 'AG-305',
-        model: 'B14',
-        status: 'Hovering',
-        speed: 0,
-        altitude: 45,
-        signalStrength: 'Good',
-        batteryLevel: 64,
-        mode: 'Manual Override',
-        eta: 'Hold'
-    },
-    {
-        id: 'AG-118',
-        model: 'R02',
-        status: 'Returning',
-        speed: 55,
-        altitude: 90,
-        signalStrength: 'Strong',
-        batteryLevel: 22,
-        mode: 'Autonomous',
-        eta: '4m'
-    },
-    {
-        id: 'AG-772',
-        model: 'Z55',
-        status: 'Active',
-        speed: 38,
-        altitude: 150,
-        signalStrength: 'Strong',
-        batteryLevel: 91,
-        mode: 'Autonomous',
-        eta: '24m'
-    },
-    {
-        id: 'AG-210',
-        model: 'C09',
-        status: 'Signal Weak',
-        speed: 22,
-        altitude: 60,
-        signalStrength: 'Weak',
-        batteryLevel: 45,
-        mode: 'Autonomous',
-        eta: '15m'
-    },
-    {
-        id: 'AG-901',
-        model: 'F88',
-        status: 'Active',
-        speed: 65,
-        altitude: 210,
-        signalStrength: 'Strong',
-        batteryLevel: 88,
-        mode: 'Autonomous',
-        eta: '30m'
-    }
-];
+export const fleetStatusData: Drone[] = [];
 
 export const statistics = {
     totalActive: {
-        value: 12,
-        change: '+2%',
-        trend: 'up'
+        value: 0,
+        change: '0%',
+        trend: 'stable'
     },
     avgBattery: {
-        value: '84%',
-        change: '+5%',
-        trend: 'up'
+        value: 'N/A',
+        change: '0%',
+        trend: 'stable'
     },
     missionsToday: {
-        value: 28,
-        change: '+12%',
-        trend: 'up'
+        value: 0,
+        change: '0%',
+        trend: 'stable'
     },
     safetyAlerts: {
         value: 0,
-        status: 'Normal'
+        status: 'N/A'
     }
 };
 
@@ -111,32 +44,7 @@ export interface Notification {
     type: 'info' | 'warning' | 'success';
 }
 
-export const mockNotifications: Notification[] = [
-    {
-        id: '1',
-        title: 'System Update',
-        message: 'Commander Aero v2.4 live. New autonomous flight parameters enabled.',
-        time: '2m ago',
-        read: false,
-        type: 'info'
-    },
-    {
-        id: '2',
-        title: 'Low Battery Warning',
-        message: 'AG-210 below 15% threshold. Returning to base automatically.',
-        time: '14m ago',
-        read: false,
-        type: 'warning'
-    },
-    {
-        id: '3',
-        title: 'Audit Complete',
-        message: 'Daily regulatory compliance check passed for Zone B operations.',
-        time: '1h ago',
-        read: true,
-        type: 'success'
-    }
-];
+export const mockNotifications: Notification[] = [];
 
 export interface CrewMember {
     id: string;
@@ -149,26 +57,20 @@ export interface CrewMember {
 export const flightCrew: CrewMember[] = [
     {
         id: '1',
-        name: 'Marcus Reed',
-        role: 'Lead Pilot • Active',
+        name: 'Jaskirt Kaler',
+        role: 'Admin • Online',
         status: 'online',
     },
     {
         id: '2',
-        name: 'Sarah Jenkins',
-        role: 'Monitoring AG-305',
+        name: 'Pilot One',
+        role: 'Pilot • Online',
         status: 'online',
     },
     {
         id: '3',
-        name: 'David Chen',
-        role: 'Away • 5m',
-        status: 'away',
-    },
-    {
-        id: '4',
-        name: 'Elena Rodriguez',
-        role: 'Offline',
+        name: 'Pilot Two',
+        role: 'Pilot • Offline',
         status: 'offline',
     }
 ];
@@ -186,14 +88,14 @@ export interface AuditData {
 }
 
 export const auditData: AuditData = {
-    status: 'Certified',
-    compliance: true,
-    windSpeed: 12,
-    visibility: 14,
-    precipitation: 'None',
+    status: 'Pending',
+    compliance: false,
+    windSpeed: 0,
+    visibility: 0,
+    precipitation: 'N/A',
     sources: {
-        faa: true,
-        orgProtocol: true
+        faa: false,
+        orgProtocol: false
     }
 };
 
@@ -214,17 +116,17 @@ export interface AnalyticsMetrics {
 
 export const analyticsData: AnalyticsMetrics = {
     efficiency: {
-        value: '88.5%',
-        trend: 'up',
-        change: '+4.5%'
+        value: 'N/A',
+        trend: 'stable',
+        change: '0%'
     },
     incidentRate: {
-        value: '0.03%',
-        trend: 'down', // Good thing
-        change: '-0.01%'
+        value: 'N/A',
+        trend: 'stable',
+        change: '0%'
     },
-    flightHours: 12450,
-    missionSuccessRate: 94.2
+    flightHours: 0,
+    missionSuccessRate: 0
 };
 
 export interface SafetyLog {
@@ -238,58 +140,7 @@ export interface SafetyLog {
     verified: boolean;
 }
 
-export const safetyLogsData: SafetyLog[] = [
-    {
-        id: 'L-101',
-        date: 'Oct 24, 2024',
-        time: '09:42 AM',
-        pilot: 'Marcus Reed',
-        droneId: 'AG-402',
-        level: 'LOW',
-        description: 'Routine pre-flight check complete. No anomalies detected.',
-        verified: true
-    },
-    {
-        id: 'L-102',
-        date: 'Oct 24, 2024',
-        time: '08:15 AM',
-        pilot: 'Sarah Jenkins',
-        droneId: 'AG-305',
-        level: 'MED',
-        description: 'Battery temp slightly elevated during charging. Monitoring.',
-        verified: true
-    },
-    {
-        id: 'L-103',
-        date: 'Oct 23, 2024',
-        time: '16:30 PM',
-        pilot: 'David Chen',
-        droneId: 'AG-118',
-        level: 'LOW',
-        description: 'Post-mission diagnostic. All systems nominal.',
-        verified: true
-    },
-    {
-        id: 'L-104',
-        date: 'Oct 23, 2024',
-        time: '14:12 PM',
-        pilot: 'Marcus Reed',
-        droneId: 'AG-772',
-        level: 'HIGH',
-        description: 'Unexpected wind shear reports in Sector 7. Re-routing engaged.',
-        verified: true
-    },
-    {
-        id: 'L-105',
-        date: 'Oct 23, 2024',
-        time: '11:05 AM',
-        pilot: 'Sarah Jenkins',
-        droneId: 'AG-210',
-        level: 'LOW',
-        description: 'Firmware capability verified for v2.4 roll-out.',
-        verified: true
-    }
-];
+export const safetyLogsData: SafetyLog[] = [];
 
 export interface TeamMember {
     id: string;
@@ -305,8 +156,8 @@ export interface TeamMember {
 export const teamMembersData: TeamMember[] = [
     {
         id: 'tm-1',
-        name: 'Alex Chen',
-        email: 'alex@skyhigh.com',
+        name: 'Jaskirt Kaler',
+        email: 'jaskirt@skyhigh.com',
         avatarColor: '#E8B86D',
         status: 'Active',
         isAdmin: true,
@@ -314,8 +165,8 @@ export const teamMembersData: TeamMember[] = [
     },
     {
         id: 'tm-2',
-        name: 'Marcus Reed',
-        email: 'marcus@skyhigh.com',
+        name: 'Pilot One',
+        email: 'pilot1@skyhigh.com',
         avatarColor: '#D4E85E',
         status: 'Active',
         isAdmin: false,
@@ -323,30 +174,12 @@ export const teamMembersData: TeamMember[] = [
     },
     {
         id: 'tm-3',
-        name: 'Sarah Jenkins',
-        email: 'sarah@skyhigh.com',
+        name: 'Pilot Two',
+        email: 'pilot2@skyhigh.com',
         avatarColor: '#D47A4A',
         status: 'Active',
         isAdmin: false,
         isPilot: true
-    },
-    {
-        id: 'tm-4',
-        name: 'David Chen',
-        email: 'david@skyhigh.com',
-        avatarColor: '#C4AAED',
-        status: 'Active',
-        isAdmin: false,
-        isPilot: true
-    },
-    {
-        id: 'tm-5',
-        name: 'Elena Rodriguez',
-        email: 'elena@skyhigh.com',
-        avatarColor: '#C47DB5',
-        status: 'Active',
-        isAdmin: true,
-        isPilot: false
     }
 ];
 

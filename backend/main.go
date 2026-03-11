@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/JaskirtKaler/DigitalOceanHackathon/backend/db"
 	"github.com/JaskirtKaler/DigitalOceanHackathon/backend/handlers"
 	"github.com/JaskirtKaler/DigitalOceanHackathon/backend/middleware"
 	"github.com/joho/godotenv"
@@ -17,10 +18,14 @@ func main() {
 		log.Println("No .env file found, relying on environment variables")
 	}
 
+	// Initialize the database connection and schema
+	db.InitDB()
+
 	mux := http.NewServeMux()
 
 	// Routes
 	mux.HandleFunc("/api/weather", handlers.Weather)
+	mux.HandleFunc("/api/webhooks/clerk", handlers.ClerkWebhook)
 
 	// Health check
 	mux.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {

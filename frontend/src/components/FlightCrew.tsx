@@ -5,10 +5,22 @@ import { flightCrew } from '../utils/mockData';
 import type { CrewMember } from '../utils/mockData';
 
 const FlightCrew: React.FC = () => {
-    const [crew, setCrew] = useState<CrewMember[]>(flightCrew);
-    const onlineCount = crew.filter(m => m.status === 'online').length;
+    // Org filter
+    const [currentOrgId, setCurrentOrgId] = useState(localStorage.getItem('currentOrgId') || 'org-001');
 
-    // Invite modal state
+    React.useEffect(() => {
+        const handleOrgChange = () => {
+            setCurrentOrgId(localStorage.getItem('currentOrgId') || 'org-001');
+        };
+        window.addEventListener('orgChanged', handleOrgChange);
+        return () => window.removeEventListener('orgChanged', handleOrgChange);
+    }, []);
+
+    const isSkyHigh = currentOrgId === 'org-001';
+    
+    const [crew, setCrew] = useState<CrewMember[]>(flightCrew);
+    const activeCrew = isSkyHigh ? crew : [];
+    const onlineCount = activeCrew.filter(m => m.status === 'online').length;
     const [inviteOpen, setInviteOpen] = useState(false);
     const [inviteName, setInviteName] = useState('');
     const [inviteEmail, setInviteEmail] = useState('');
@@ -45,7 +57,7 @@ const FlightCrew: React.FC = () => {
             </div>
 
             <div className={styles.crewList}>
-                {crew.map(member => (
+                {activeCrew.map(member => (
                     <div key={member.id} className={styles.crewMember}>
                         <div className={styles.memberInfo}>
                             <div style={{ position: 'relative' }}>
@@ -70,7 +82,9 @@ const FlightCrew: React.FC = () => {
                 ))}
             </div>
 
-            <button className={styles.inviteBtn} onClick={openInvite}>Quick Invite</button>
+            {isSkyHigh && (
+                <button className={styles.inviteBtn} onClick={openInvite}>Quick Invite</button>
+            )}
 
             {/* Invite Modal — portalled to body so it sits above everything */}
             {inviteOpen && ReactDOM.createPortal(

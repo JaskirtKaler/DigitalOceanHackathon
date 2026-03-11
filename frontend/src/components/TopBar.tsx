@@ -4,6 +4,11 @@ import NotificationIcon from '../assets/icons/notification-svgrepo-com.svg';
 import { mockNotifications } from '../utils/mockData';
 import JoinOrganizationModal from './JoinOrganizationModal';
 
+const defaultOrgList = [
+    { id: 'org-001', name: 'SkyHigh Logistics' },
+    { id: 'org-002', name: 'Pacific Drone Fleet' }
+];
+
 const TopBar: React.FC = () => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [notifications, setNotifications] = useState(mockNotifications);
@@ -11,11 +16,16 @@ const TopBar: React.FC = () => {
     // Organization State
     const [isOrgDropdownOpen, setIsOrgDropdownOpen] = useState(false);
     const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
-    const [currentOrg, setCurrentOrg] = useState({ id: 'org-001', name: 'SkyHigh Logistics' });
-    const [orgList, setOrgList] = useState([
-        { id: 'org-001', name: 'SkyHigh Logistics' },
-        { id: 'org-002', name: 'Pacific Drone Fleet' } // Sample existing org
-    ]);
+    const [orgList, setOrgList] = useState(defaultOrgList);
+    
+    const [currentOrg, setCurrentOrg] = useState(() => {
+        const savedId = localStorage.getItem('currentOrgId');
+        if (savedId) {
+            const found = defaultOrgList.find(o => o.id === savedId);
+            if (found) return found;
+        }
+        return defaultOrgList[0];
+    });
 
     const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -29,12 +39,16 @@ const TopBar: React.FC = () => {
         const newOrg = { id: orgId, name: `Organization ${orgId}` };
         setOrgList([...orgList, newOrg]);
         setCurrentOrg(newOrg);
+        localStorage.setItem('currentOrgId', newOrg.id);
+        window.dispatchEvent(new Event('orgChanged'));
         setIsJoinModalOpen(false);
         setIsOrgDropdownOpen(false);
     };
 
     const handleSwitchOrg = (org: { id: string, name: string }) => {
         setCurrentOrg(org);
+        localStorage.setItem('currentOrgId', org.id);
+        window.dispatchEvent(new Event('orgChanged'));
         setIsOrgDropdownOpen(false);
     };
 

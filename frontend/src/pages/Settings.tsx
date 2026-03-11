@@ -16,24 +16,36 @@ const Settings: React.FC = () => {
     const [orgName, setOrgName] = useState(organizationSettings.name);
     const [displayId, setDisplayId] = useState(organizationSettings.displayId);
 
-    // Build members list with logged-in Clerk user as the first entry
+    // Build members list, syncing the logged-in user with the Jaskirt mock
     const initialMembers = useMemo<TeamMember[]>(() => {
-        const clerkMember: TeamMember = {
-            id: 'tm-clerk',
-            name: user?.fullName || 'You',
-            email: user?.primaryEmailAddress?.emailAddress || '',
-            avatarColor: '#E8B86D',
-            avatarUrl: user?.imageUrl,
-            status: 'Active',
-            isAdmin: true,
-            isPilot: true
-        };
-        // Replace the first mock member with the Clerk user
-        return [clerkMember, ...teamMembersData.slice(1)];
+        return teamMembersData.map(member => {
+            if (member.id === 'tm-1' && user) {
+                return {
+                    ...member,
+                    name: user.fullName || member.name,
+                    email: user.primaryEmailAddress?.emailAddress || member.email,
+                    avatarUrl: user.imageUrl,
+                };
+            }
+            return member;
+        });
     }, [user]);
+
+    const isCurrentUserAdmin = user?.primaryEmailAddress?.emailAddress?.toLowerCase() === 'jaskirt839@gmail.com';
 
     const [members, setMembers] = useState<TeamMember[]>(initialMembers);
     const [currentPage, setCurrentPage] = useState(1);
+    
+    // Organization tracking
+    const [currentOrgId, setCurrentOrgId] = useState(localStorage.getItem('currentOrgId') || 'org-001');
+
+    React.useEffect(() => {
+        const handleOrgChange = () => {
+            setCurrentOrgId(localStorage.getItem('currentOrgId') || 'org-001');
+        };
+        window.addEventListener('orgChanged', handleOrgChange);
+        return () => window.removeEventListener('orgChanged', handleOrgChange);
+    }, []);
 
     // Admin toggle confirmation modal state
     const [modalOpen, setModalOpen] = useState(false);
@@ -53,9 +65,12 @@ const Settings: React.FC = () => {
     const [removeModalOpen, setRemoveModalOpen] = useState(false);
     const [pendingRemove, setPendingRemove] = useState<{ memberId: string; memberName: string } | null>(null);
 
-    const totalPages = Math.ceil(members.length / MEMBERS_PER_PAGE);
+    const isSkyHigh = currentOrgId === 'org-001';
+    const activeMembers = isSkyHigh ? members : [];
+
+    const totalPages = Math.ceil(activeMembers.length / MEMBERS_PER_PAGE);
     const startIdx = (currentPage - 1) * MEMBERS_PER_PAGE;
-    const visibleMembers = members.slice(startIdx, startIdx + MEMBERS_PER_PAGE);
+    const visibleMembers = activeMembers.slice(startIdx, startIdx + MEMBERS_PER_PAGE);
 
     const handleAdminToggleClick = (memberId: string, memberName: string, currentValue: boolean) => {
         setPendingToggle({ memberId, memberName, newValue: !currentValue });
@@ -157,9 +172,10 @@ const Settings: React.FC = () => {
                 <div className={styles.content}>
                     {/* Page Header */}
                     <div className={styles.pageHeader}>
-                        <h2>Settings</h2>
-                        <div className={styles.breadcrumbSep} />
-                        <span className={styles.breadcrumbLabel}>Organization</span>
+                        <div>
+                            <h2>Settings</h2>
+                            <p className={styles.subHeader}>Manage organization branding, team access, and preferences.</p>
+                        </div>
                     </div>
 
                     {/* Organization Branding Card */}
@@ -221,10 +237,12 @@ const Settings: React.FC = () => {
                                 <h3>Team Members</h3>
                                 <p>Manage access roles and permissions</p>
                             </div>
-                            <button className={styles.inviteBtn} onClick={openInviteModal}>
-                                <span className={styles.inviteBtnIcon}>+</span>
-                                Invite Member
-                            </button>
+                            {isCurrentUserAdmin && (
+                                <button className={styles.inviteBtn} onClick={openInviteModal}>
+                                    <span className={styles.inviteBtnIcon}>+</span>
+                                    Invite Member
+                                </button>
+                            )}
                         </div>
 
                         <table className={styles.membersTable}>
@@ -280,6 +298,7 @@ const Settings: React.FC = () => {
                                                     type="checkbox"
                                                     checked={member.isAdmin}
                                                     onChange={() => handleAdminToggleClick(member.id, member.name, member.isAdmin)}
+                                                    disabled={!isCurrentUserAdmin}
                                                 />
                                                 <span className={styles.toggleSlider} />
                                             </label>
@@ -290,18 +309,21 @@ const Settings: React.FC = () => {
                                                     type="checkbox"
                                                     checked={member.isPilot}
                                                     onChange={() => handlePilotToggle(member.id)}
+                                                    disabled={!isCurrentUserAdmin}
                                                 />
                                                 <span className={styles.toggleSlider} />
                                             </label>
                                         </td>
                                         <td className={styles.actionCol}>
                                             <div className={styles.actionWrapper}>
-                                                <button
-                                                    className={styles.actionBtn}
-                                                    onClick={() => setOpenMenuId(openMenuId === member.id ? null : member.id)}
-                                                >
-                                                    ⋮
-                                                </button>
+                                                {isCurrentUserAdmin && (
+                                                    <button
+                                                        className={styles.actionBtn}
+                                                        onClick={() => setOpenMenuId(openMenuId === member.id ? null : member.id)}
+                                                    >
+                                                        ⋮
+                                                    </button>
+                                                )}
                                                 {openMenuId === member.id && (
                                                     <div className={styles.actionDropdown}>
                                                         <button
@@ -325,7 +347,7 @@ const Settings: React.FC = () => {
 
                         <div className={styles.pagination}>
                             <span className={styles.paginationInfo}>
-                                Showing {visibleMembers.length} of {members.length} members
+                                Showing {visibleMembers.length} of {activeMembers.length} members
                             </span>
                             <div className={styles.paginationControls}>
                                 <button
