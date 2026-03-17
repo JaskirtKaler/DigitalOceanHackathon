@@ -1,8 +1,22 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import styles from './ActiveMission.module.css';
+import { useTelemetry } from '../hooks/useTelemetry';
 
 const ActiveMission: React.FC = () => {
+    // For now we assume a hardcoded active drone ID, or from a mock list:
+    const DEMO_DRONE_ID = 'AG-ALPHA-01';
+    
+    const { data: telemetry } = useTelemetry(DEMO_DRONE_ID);
+    
+    // Derived values or empty representations
+    const hasData = !!telemetry;
+    const altitude = hasData ? Math.round(telemetry.altitude) : 'N/A';
+    const velocity = hasData ? Math.round(Math.sqrt(telemetry.velocity_x**2 + telemetry.velocity_y**2) * 2.23694) : 'N/A'; // m/s to mph
+    const ppoScore = hasData ? (telemetry.rl_agent_stability_score * 100).toFixed(1) : 'N/A';
+    const pitch = hasData ? (telemetry.attitude_pitch * (180 / Math.PI)).toFixed(1) : 'N/A';
+    const roll = hasData ? (telemetry.attitude_roll * (180 / Math.PI)).toFixed(1) : 'N/A';
+    const battery = hasData ? telemetry.battery_level : 0;
     return (
         <div className={styles.container}>
             <Sidebar />
@@ -30,7 +44,7 @@ const ActiveMission: React.FC = () => {
                         <div className={styles.missionInfo}>
                             <span className={styles.missionTitle}>Mission Control</span>
                             <span className={styles.missionDrone}>
-                                Drone-X14 <span className={styles.liveDot}>LIVE</span>
+                                {DEMO_DRONE_ID} <span className={hasData ? styles.liveDot : styles.offlineDot}>{hasData ? 'LIVE' : 'OFFLINE'}</span>
                             </span>
                         </div>
                     </div>
@@ -71,8 +85,8 @@ const ActiveMission: React.FC = () => {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
                             </span>
                         </div>
-                        <div className={styles.panelValue}>425<span className={styles.panelUnit}>ft</span></div>
-                        <div className={styles.panelChange}>↑ 12 ft/s</div>
+                        <div className={styles.panelValue}>{altitude}<span className={styles.panelUnit}>{hasData ? 'ft' : ''}</span></div>
+                        <div className={styles.panelChange}>{hasData ? 'Tracking Live Data' : 'Waiting for connection'}</div>
                     </div>
 
                     {/* Velocity */}
@@ -83,9 +97,9 @@ const ActiveMission: React.FC = () => {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
                             </span>
                         </div>
-                        <div className={styles.panelValue}>38<span className={styles.panelUnit}>mph</span></div>
+                        <div className={styles.panelValue}>{velocity}<span className={styles.panelUnit}>{hasData ? 'mph' : ''}</span></div>
                         <div className={styles.progressBar}>
-                            <div className={styles.progressFill} style={{ width: '55%' }} />
+                            <div className={styles.progressFill} style={{ width: hasData ? `${Math.min(100, (Number(velocity) / 60) * 100)}%` : '0%' }} />
                         </div>
                     </div>
 
@@ -102,15 +116,15 @@ const ActiveMission: React.FC = () => {
                             </svg>
                         </div>
                         <div className={styles.agentLabel}>PPO Stability</div>
-                        <div className={styles.agentValue}>98.4<span className={styles.agentPercent}>%</span></div>
+                        <div className={styles.agentValue}>{ppoScore}<span className={styles.agentPercent}>{hasData ? '%' : ''}</span></div>
                         <div className={styles.agentBars}>
-                            <div className={`${styles.bar} ${styles.barFilled}`} />
-                            <div className={`${styles.bar} ${styles.barFilled}`} />
-                            <div className={`${styles.bar} ${styles.barFilled}`} />
-                            <div className={`${styles.bar} ${styles.barFilled}`} />
-                            <div className={styles.bar} />
+                            <div className={`${styles.bar} ${hasData && telemetry.rl_agent_stability_score > 0.2 ? styles.barFilled : ''}`} />
+                            <div className={`${styles.bar} ${hasData && telemetry.rl_agent_stability_score > 0.4 ? styles.barFilled : ''}`} />
+                            <div className={`${styles.bar} ${hasData && telemetry.rl_agent_stability_score > 0.6 ? styles.barFilled : ''}`} />
+                            <div className={`${styles.bar} ${hasData && telemetry.rl_agent_stability_score > 0.8 ? styles.barFilled : ''}`} />
+                            <div className={`${styles.bar} ${hasData && telemetry.rl_agent_stability_score > 0.95 ? styles.barFilled : ''}`} />
                         </div>
-                        <div className={styles.agentConfidence}>Agent Confidence: High</div>
+                        <div className={styles.agentConfidence}>Agent Confidence: {hasData ? (telemetry.rl_agent_stability_score > 0.8 ? 'High' : 'Low') : 'N/A'}</div>
                     </div>
 
                     {/* Map */}
@@ -127,7 +141,7 @@ const ActiveMission: React.FC = () => {
                     <div className={styles.batteryBar}>
                         <span className={styles.batteryLabel}>BAT</span>
                         <div className={styles.batteryTrack}>
-                            <div className={styles.batteryFill} style={{ height: '72%' }} />
+                            <div className={styles.batteryFill} style={{ height: `${battery}%` }} />
                         </div>
                         <span className={styles.signalLabel}>SIG</span>
                     </div>
@@ -144,30 +158,17 @@ const ActiveMission: React.FC = () => {
                             <span className={styles.logDot} />
                         </div>
                         <div className={styles.logEntries}>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:41:55</span>
-                                <span className={styles.logMessage}>System check complete. All motors nominal.</span>
-                            </div>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:41:58</span>
-                                <span className={styles.logMessage}>Wind shear detected (15mph NW). Compensating roll +1.2°.</span>
-                            </div>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:42:01</span>
-                                <span className={`${styles.logMessage} ${styles.logAlert}`}>Object detected: Obstacle Tree. ID#4922</span>
-                            </div>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:42:02</span>
-                                <span className={styles.logMessage}>AI Decision: Rerouting path +5 degrees North.</span>
-                            </div>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:42:03</span>
-                                <span className={`${styles.logMessage} ${styles.logAI}`}>PPO Agent: Stability verified. Trajectory updated.</span>
-                            </div>
-                            <div className={styles.logEntry}>
-                                <span className={styles.logTime}>10:42:05</span>
-                                <span className={styles.logMessage}>Maintaining altitude 425ft. Scanning sector 7.</span>
-                            </div>
+                            {hasData ? (
+                                <div className={styles.logEntry}>
+                                    <span className={styles.logTime}>NOW</span>
+                                    <span className={`${styles.logMessage} ${styles.logAI}`}>Receiving live telemetry frames. PPO Score: {ppoScore}%</span>
+                                </div>
+                            ) : (
+                                <div className={styles.logEntry}>
+                                    <span className={styles.logTime}>N/A</span>
+                                    <span className={styles.logMessage}>Waiting for Python Environment Data stream...</span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -177,14 +178,14 @@ const ActiveMission: React.FC = () => {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
                                 Pitch
                             </span>
-                            <span className={styles.orientationValue}>-4.2°</span>
+                            <span className={styles.orientationValue}>{pitch}{hasData ? '°' : ''}</span>
                         </div>
                         <div className={styles.orientationItem}>
                             <span className={styles.orientationLabel}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" /></svg>
                                 Roll
                             </span>
-                            <span className={styles.orientationValue}>+1.8°</span>
+                            <span className={styles.orientationValue}>{roll}{hasData ? '°' : ''}</span>
                         </div>
                     </div>
                 </div>

@@ -68,30 +68,13 @@ const Analytics: React.FC = () => {
                             </div>
                             <p className={styles.chartSub}>Lifecycle capacity tracking across active fleet segments.</p>
 
-                            <div className={styles.chartPlaceholder}>
-                                {/* SVG Line Chart Placeholder */}
-                                <svg width="100%" height="200" viewBox="0 0 800 200" className={styles.chartSvg}>
-                                    <text x="0" y="55" fill="#9CA3AF" fontSize="12">100%</text>
-                                    <text x="0" y="105" fill="#9CA3AF" fontSize="12">90%</text>
-                                    <text x="0" y="155" fill="#9CA3AF" fontSize="12">80%</text>
-
-                                    <path d="M40,50 Q240,60 440,100 T800,140" fill="none" stroke="#2D7FF9" strokeWidth="4" />
-                                    <path d="M40,50 L800,50" stroke="#eee" strokeWidth="1" strokeDasharray="5,5" />
-                                    <path d="M40,100 L800,100" stroke="#eee" strokeWidth="1" strokeDasharray="5,5" />
-                                    <path d="M40,150 L800,150" stroke="#eee" strokeWidth="1" strokeDasharray="5,5" />
-
-                                    <circle cx="440" cy="100" r="6" fill="#1A1F36" stroke="#fff" strokeWidth="2" />
-                                    <rect x="390" y="60" width="100" height="30" rx="4" fill="#1A1F36" />
-                                    <text x="440" y="80" textAnchor="middle" fill="#fff" fontSize="12">Avg Cycle: 245</text>
+                            <div className={styles.chartPlaceholder} style={{ textAlign: 'center', padding: '4rem 0', background: '#F8FAFC', borderRadius: '12px', border: '1px dashed #CBD5E1' }}>
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1rem' }}>
+                                    <path d="M3 3v18h18" />
+                                    <path d="M18.5 5.5l-6 6-4-4-5 5" strokeDasharray="4 4" />
                                 </svg>
-
-                                <div className={styles.chartLabels}>
-                                    <span>Jan</span>
-                                    <span>Mar</span>
-                                    <span>May</span>
-                                    <span>Jul</span>
-                                    <span>Sep</span>
-                                </div>
+                                <h4 style={{ color: '#475569', margin: '0 0 0.5rem 0' }}>No Historical Data Available</h4>
+                                <p style={{ color: '#64748B', fontSize: '0.875rem', margin: '0' }}>Waiting for flight telemetry to populate analytics engine.</p>
                             </div>
                         </div>
 
