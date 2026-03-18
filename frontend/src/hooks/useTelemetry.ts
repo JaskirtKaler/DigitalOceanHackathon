@@ -16,6 +16,7 @@ export interface TelemetryData {
     gps_lon: number;
     rl_agent_stability_score: number;
     weather_wind_speed_disturbance: number;
+    camera_feed?: string;
 }
 
 export const useTelemetry = (droneId: string | null) => {
@@ -23,11 +24,11 @@ export const useTelemetry = (droneId: string | null) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchTelemetry = async () => {
+    const fetchTelemetry = async (isBackgroundPoll = false) => {
         if (!droneId) return;
 
         try {
-            setLoading(true);
+            if (!isBackgroundPoll) setLoading(true);
             // Fetch from backend telemetry route using matching local host
             const response = await fetch(`http://localhost:8080/api/telemetry?drone_id=${droneId}`);
             if (!response.ok) {
@@ -41,20 +42,25 @@ export const useTelemetry = (droneId: string | null) => {
             console.error('Error fetching telemetry:', err);
             setData(null);
         } finally {
-            setLoading(false);
+            if (!isBackgroundPoll) setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchTelemetry();
+        let isMounted = true;
+        
+        fetchTelemetry(false);
 
-        // Optional: poll every few seconds for live ML data
+        // Fetch live ML data at a blazing fast 200ms interval (5Hz)
         const intervalId = setInterval(() => {
-            fetchTelemetry();
-        }, 3000);
+            if (isMounted) fetchTelemetry(true);
+        }, 200);
 
-        return () => clearInterval(intervalId);
+        return () => {
+            isMounted = false;
+            clearInterval(intervalId);
+        };
     }, [droneId]);
 
-    return { data, loading, error, refetch: fetchTelemetry };
+    return { data, loading, error, refetch: () => fetchTelemetry(false) };
 };

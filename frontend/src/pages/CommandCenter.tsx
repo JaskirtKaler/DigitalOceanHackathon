@@ -5,7 +5,7 @@ import StatsCard from '../components/StatsCard';
 import DroneCard from '../components/DroneCard';
 import WeatherTelematics from '../components/WeatherTelematics';
 import styles from './CommandCenter.module.css';
-import { statistics, fleetStatusData } from '../utils/mockData';
+import { statistics } from '../utils/mockData';
 
 // Icons for stats
 import PlaneIcon from '../assets/icons/plane-departure-solid-svgrepo-com.svg';
@@ -16,6 +16,7 @@ import AlertIcon from '../assets/icons/alert-triangle-svgrepo-com.svg';
 
 import { useState, useEffect } from 'react';
 import FlightCrew from '../components/FlightCrew';
+import { useFleet } from '../hooks/useFleet';
 // import RegulatoryAudit from '../components/RegulatoryAudit';
 
 const CommandCenter: React.FC = () => {
@@ -32,8 +33,10 @@ const CommandCenter: React.FC = () => {
 
     const isSkyHigh = currentOrgId === 'org-001';
     
+    const { fleet } = useFleet(currentOrgId);
+
     // Default to empty arrays/objects if not SkyHigh
-    const activeFleet = isSkyHigh ? fleetStatusData : [];
+    const activeFleet = isSkyHigh ? fleet : [];
     const activeStats = isSkyHigh ? statistics : {
         totalActive: { value: 0, change: '0%', trend: 'stable' },
         avgBattery: { value: 'N/A', change: '0%', trend: 'stable' },
@@ -60,7 +63,7 @@ const CommandCenter: React.FC = () => {
                         <div className={styles.statsGrid}>
                             <StatsCard
                                 title="Total Active"
-                                value={activeStats.totalActive.value}
+                                value={activeFleet.length}
                                 change={activeStats.totalActive.change}
                                 trend={activeStats.totalActive.trend as any}
                                 icon={PlaneIcon}

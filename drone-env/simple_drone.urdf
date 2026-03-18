@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<robot name="quadrotor">
+  <material name="dark_gray">
+    <color rgba="0.2 0.2 0.2 1"/>
+  </material>
+  <material name="gray">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+  <material name="red_transparent">
+    <color rgba="0.8 0.1 0.1 0.5"/>
+  </material>
+  <material name="blue_transparent">
+    <color rgba="0.1 0.1 0.8 0.5"/>
+  </material>
+
+  <link name="base_link">
+    <!-- Center Body -->
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.05"/>
+      </geometry>
+      <material name="dark_gray"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.01"/>
+    </inertial>
+
+    <!-- Arms -->
+    <visual>
+      <origin rpy="0 0 0.785398" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.02 0.01"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+    <visual>
+      <origin rpy="0 0 -0.785398" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.02 0.01"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+
+    <!-- Propellers (Front=Red, Back=Blue) -->
+    <!-- Front Left -->
+    <visual>
+      <origin xyz="0.106 0.106 0.02"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.01"/>
+      </geometry>
+      <material name="red_transparent"/>
+    </visual>
+    <!-- Front Right -->
+    <visual>
+      <origin xyz="0.106 -0.106 0.02"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.01"/>
+      </geometry>
+      <material name="red_transparent"/>
+    </visual>
+    <!-- Back Left -->
+    <visual>
+      <origin xyz="-0.106 0.106 0.02"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.01"/>
+      </geometry>
+      <material name="blue_transparent"/>
+    </visual>
+    <!-- Back Right -->
+    <visual>
+      <origin xyz="-0.106 -0.106 0.02"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.01"/>
+      </geometry>
+      <material name="blue_transparent"/>
+    </visual>
+  </link>
+</robot>

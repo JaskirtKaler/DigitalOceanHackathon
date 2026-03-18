@@ -5,8 +5,17 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/JaskirtKaler/DigitalOceanHackathon/backend/db"
+)
+
+var (
+	latestCameraFeeds = make(map[string]string)
+	cameraMutex       sync.RWMutex
+
+	latestTelemetry = make(map[string]TelemetryData)
+	telemetryMutex  sync.RWMutex
 )
 
 // TelemetryData represents the payload from the ML Agent or the response to the Frontend
@@ -25,6 +34,7 @@ type TelemetryData struct {
 	GPSLon                  float64 `json:"gps_lon"`
 	RLAgentStabilityScore   float64 `json:"rl_agent_stability_score"`
 	WeatherWindSpeedDisturb float64 `json:"weather_wind_speed_disturbance"`
+	CameraFeed              string  `json:"camera_feed,omitempty"` // Base64 encoded JPEG
 }
 
 // Telemetry handles both GET (fetching latest) and POST (logging new) telemetry
@@ -41,13 +51,32 @@ func Telemetry(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		if data.CameraFeed != "" {
+			cameraMutex.Lock()
+			latestCameraFeeds[data.DroneID] = data.CameraFeed
+			cameraMutex.Unlock()
+		}
+
+		// Upsert the Organization to satisfy foreign key constraints during simulation testing
+		orgQuery := `
+			INSERT INTO organizations (id, name)
+			VALUES ($1, $2)
+			ON CONFLICT (id) DO NOTHING;
+		`
+		_, err := db.DB.Exec(orgQuery, data.OrganizationID, "Simulation Test Org")
+		if err != nil {
+			log.Printf("Error upserting org: %v", err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
 		// Upsert the Drone (in case it's the first time it's reporting)
 		droneQuery := `
 			INSERT INTO drones (id, organization_id, is_simulated)
 			VALUES ($1, $2, true)
 			ON CONFLICT (id) DO NOTHING;
 		`
-		_, err := db.DB.Exec(droneQuery, data.DroneID, data.OrganizationID)
+		_, err = db.DB.Exec(droneQuery, data.DroneID, data.OrganizationID)
 		if err != nil {
 			log.Printf("Error upserting drone: %v", err)
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -77,6 +106,11 @@ func Telemetry(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// Update RAM cache so UI fetches are instant
+		telemetryMutex.Lock()
+		latestTelemetry[data.DroneID] = data
+		telemetryMutex.Unlock()
+
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]string{"status": "success"})
 		return
@@ -89,6 +123,24 @@ func Telemetry(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// Fast Path: Check RAM cache first
+		telemetryMutex.RLock()
+		data, ok := latestTelemetry[droneID]
+		telemetryMutex.RUnlock()
+
+		if ok {
+			cameraMutex.RLock()
+			if feed, okCam := latestCameraFeeds[droneID]; okCam {
+				data.CameraFeed = feed
+			}
+			cameraMutex.RUnlock()
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(data)
+			return
+		}
+
+		// Slow Path: Fallback to DB (e.g. server restarted and ram is empty)
 		query := `
 			SELECT 
 				drone_id, attitude_pitch, attitude_roll, attitude_yaw,
@@ -101,7 +153,6 @@ func Telemetry(w http.ResponseWriter, r *http.Request) {
 			LIMIT 1
 		`
 
-		var data TelemetryData
 		err := db.DB.QueryRow(query, droneID).Scan(
 			&data.DroneID, &data.AttitudePitch, &data.AttitudeRoll, &data.AttitudeYaw,
 			&data.VelocityX, &data.VelocityY, &data.VelocityZ, &data.BatteryLevel,
@@ -119,6 +170,12 @@ func Telemetry(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
+
+		cameraMutex.RLock()
+		if feed, ok := latestCameraFeeds[droneID]; ok {
+			data.CameraFeed = feed
+		}
+		cameraMutex.RUnlock()
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(data)

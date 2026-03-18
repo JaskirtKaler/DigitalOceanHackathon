@@ -1,0 +1,31 @@
+# DigitalOcean Hackathon Project Dependencies
+
+This file details the frameworks and libraries used across the three project components.
+
+## 1. Backend
+- **Language:** Go (v1.25.0)
+- **Key Modules/Libraries:**
+  - `github.com/joho/godotenv` - Environment variable management
+  - `github.com/lib/pq` - PostgreSQL driver
+  - `github.com/google/uuid` - UUID generation
+  - `github.com/svix/svix-webhooks` - Webhook signature verification
+
+## 2. Frontend
+- **Framework:** React 19 / TypeScript
+- **Build Tool:** Vite
+- **Package Manager:** npm / bun (bun.lock is present)
+- **Key Dependencies:**
+  - `react`, `react-dom`, `react-router-dom` - Core libraries and routing
+  - `@clerk/clerk-react` - User authentication flow
+  - `lucide-react` - Application icons
+  - `tailwindcss` (assumed based on standard Vite setups) - Styling framework
+
+## 3. Drone Environment (drone-env)
+- **Language:** Python 3
+- **Primary Usage:** Simulation Server
+- **Key Libraries:**
+  - `pybullet` and `pybullet_data` - Physical simulation engine
+  - `numpy` - Numerical operations
+  - `Pillow` - Image processing for camera feeds
+  - `requests` - HTTP client to send telemetry back to the backend
+  - Optional: `gym_pybullet_drones`, `gym`, `stable_baselines3` (for advanced RL flight models)

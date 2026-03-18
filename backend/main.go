@@ -27,6 +27,7 @@ func main() {
 	mux.HandleFunc("/api/weather", handlers.Weather)
 	mux.HandleFunc("/api/webhooks/clerk", handlers.ClerkWebhook)
 	mux.HandleFunc("/api/telemetry", handlers.Telemetry)
+	mux.HandleFunc("/api/fleet", handlers.Fleet)
 
 	// Health check
 	mux.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {

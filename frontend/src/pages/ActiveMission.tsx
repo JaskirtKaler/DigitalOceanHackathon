@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import styles from './ActiveMission.module.css';
 import { useTelemetry } from '../hooks/useTelemetry';
 
 const ActiveMission: React.FC = () => {
-    // For now we assume a hardcoded active drone ID, or from a mock list:
-    const DEMO_DRONE_ID = 'AG-ALPHA-01';
-    
-    const { data: telemetry } = useTelemetry(DEMO_DRONE_ID);
-    
+    const [activeDroneId, setActiveDroneId] = useState('AG-ALPHA-01');
+
+    const { data: telemetry } = useTelemetry(activeDroneId);
+
     // Derived values or empty representations
     const hasData = !!telemetry;
     const altitude = hasData ? Math.round(telemetry.altitude) : 'N/A';
-    const velocity = hasData ? Math.round(Math.sqrt(telemetry.velocity_x**2 + telemetry.velocity_y**2) * 2.23694) : 'N/A'; // m/s to mph
+    const velocity = hasData ? Math.round(Math.sqrt(telemetry.velocity_x ** 2 + telemetry.velocity_y ** 2) * 2.23694) : 'N/A'; // m/s to mph
     const ppoScore = hasData ? (telemetry.rl_agent_stability_score * 100).toFixed(1) : 'N/A';
     const pitch = hasData ? (telemetry.attitude_pitch * (180 / Math.PI)).toFixed(1) : 'N/A';
     const roll = hasData ? (telemetry.attitude_roll * (180 / Math.PI)).toFixed(1) : 'N/A';
@@ -22,18 +21,24 @@ const ActiveMission: React.FC = () => {
             <Sidebar />
             <main className={styles.mainContent}>
 
-                {/* ── Camera disabled background ── */}
-                <div className={styles.cameraDisabledOverlay}>
-                    <div className={styles.cameraIcon}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="1" y1="1" x2="23" y2="23" />
-                            <path d="M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m2-2h6l2 2h4a2 2 0 0 1 2 2v9.34" />
-                            <path d="M14.12 14.12A3 3 0 1 1 9.88 9.88" />
-                        </svg>
+                {/* ── Camera Background ── */}
+                {hasData && telemetry.camera_feed ? (
+                    <div className={styles.cameraLiveOverlay}>
+                        <img src={telemetry.camera_feed} className={styles.cameraFeedImg} alt="Live POV" />
                     </div>
-                    <span className={styles.cameraLabel}>Camera Feed Disabled</span>
-                    <span className={styles.cameraSubLabel}>No live video signal available</span>
-                </div>
+                ) : (
+                    <div className={styles.cameraDisabledOverlay}>
+                        <div className={styles.cameraIcon}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                                <path d="M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m2-2h6l2 2h4a2 2 0 0 1 2 2v9.34" />
+                                <path d="M14.12 14.12A3 3 0 1 1 9.88 9.88" />
+                            </svg>
+                        </div>
+                        <span className={styles.cameraLabel}>Camera Feed Disabled</span>
+                        <span className={styles.cameraSubLabel}>No live video signal available</span>
+                    </div>
+                )}
 
                 {/* ── Top: Mission Badge + Control Mode ── */}
                 <div className={styles.topHeader}>
@@ -44,7 +49,16 @@ const ActiveMission: React.FC = () => {
                         <div className={styles.missionInfo}>
                             <span className={styles.missionTitle}>Mission Control</span>
                             <span className={styles.missionDrone}>
-                                {DEMO_DRONE_ID} <span className={hasData ? styles.liveDot : styles.offlineDot}>{hasData ? 'LIVE' : 'OFFLINE'}</span>
+                                <select
+                                    className={styles.droneSelect}
+                                    value={activeDroneId}
+                                    onChange={(e) => setActiveDroneId(e.target.value)}
+                                >
+                                    <option value="AG-ALPHA-01">AG-ALPHA-01</option>
+                                    <option value="AG-ALPHA-02">AG-ALPHA-02</option>
+                                    <option value="AG-ALPHA-03">AG-ALPHA-03</option>
+                                </select>
+                                <span className={hasData ? styles.liveDot : styles.offlineDot}>{hasData ? 'LIVE' : 'OFFLINE'}</span>
                             </span>
                         </div>
                     </div>
